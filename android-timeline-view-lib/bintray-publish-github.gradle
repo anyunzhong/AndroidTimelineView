@@ -4,8 +4,8 @@ apply plugin: 'com.jfrog.bintray'
 
 version = "1.0.0"
 
-def siteUrl = 'https://github.com/anyunzhong/AndroidCommon' // 项目的主页
-def gitUrl = 'https://github.com/anyunzhong/AndroidCommon.git' // Git仓库的url
+def siteUrl = 'https://github.com/anyunzhong/AndroidTimelineView' // 项目的主页
+def gitUrl = 'https://github.com/anyunzhong/AndroidTimelineView.git' // Git仓库的url
 group = "net.datafans" // Maven Group ID for the artifact，一般填你唯一的包名
 
 install {
@@ -15,7 +15,7 @@ install {
             project {
                 packaging 'aar'
                 // Add your description here
-                name 'AndroidChatView' //项目描述
+                name 'AndroidTimelineView' //项目描述
                 url siteUrl
                 // Set your license
                 licenses {
@@ -64,7 +64,7 @@ bintray {
     configurations = ['archives']
     pkg {
         repo = "maven"
-        name = "AndroidChatView"    //发布到JCenter上的项目名字
+        name = "AndroidTimelineView"    //发布到JCenter上的项目名字
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ["Apache-2.0"]
