@@ -2,12 +2,15 @@ package net.datafans.android.timeline.controller;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.PersistableBundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import net.datafans.android.common.helper.DipHelper;
@@ -18,8 +21,11 @@ import net.datafans.android.common.widget.table.refresh.RefreshControlType;
 import net.datafans.android.timeline.R;
 import net.datafans.android.timeline.adapter.BaseLineCellAdapter;
 import net.datafans.android.timeline.adapter.CellAdapterManager;
+import net.datafans.android.timeline.config.Config;
 import net.datafans.android.timeline.item.BaseLineItem;
+import net.datafans.android.timeline.item.LineCommentItem;
 import net.datafans.android.timeline.item.LineItemType;
+import net.datafans.android.timeline.item.LineLikeItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +55,8 @@ public abstract class TimelineViewController extends TableViewController<BaseLin
     private void initHeaderView() {
 
         View header = getLayoutInflater().inflate(R.layout.header, null);
-        tableView.getAdapter().getListView().addHeaderView(header);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN)
+            tableView.getAdapter().getListView().addHeaderView(header);
 
         CommonImageView cover = (CommonImageView) header.findViewById(R.id.cover);
 
@@ -67,7 +74,9 @@ public abstract class TimelineViewController extends TableViewController<BaseLin
 
 
     protected abstract String getCover(int width, int height);
+
     protected abstract String getUserAvatar(int width, int height);
+
     protected abstract String getUserNick();
 
 
@@ -136,6 +145,101 @@ public abstract class TimelineViewController extends TableViewController<BaseLin
 
     protected void addItem(BaseLineItem item) {
         items.add(item);
+        genLikeSpanStr(item);
+        genCommentSpanStr(item);
+    }
+
+
+    private void genLikeSpanStr(BaseLineItem item) {
+
+        List<LineLikeItem> likes = item.likes;
+
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < likes.size(); i++) {
+            LineLikeItem like = likes.get(i);
+            builder.append(like.userNick);
+            if (i != (likes.size() - 1))
+                builder.append(", ");
+        }
+
+
+        SpannableString spannableString = new SpannableString(builder.toString());
+
+        int position = 0;
+        for (int i = 0; i < likes.size(); i++) {
+            LineLikeItem like = likes.get(i);
+            spannableString.setSpan(new ClickSpan(like.userId), position, position + like.userNick.length(),
+                    Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            position += like.userNick.length() + 2;
+        }
+
+        item.likeSpanStr = spannableString;
+
+    }
+
+
+    private void genCommentSpanStr(BaseLineItem item) {
+
+        List<LineCommentItem> comments = item.comments;
+
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < comments.size(); i++) {
+            LineCommentItem comment = comments.get(i);
+            builder.append(comment.userNick);
+            if (comment.replyUserNick != null) {
+                builder.append("回复");
+                builder.append(comment.replyUserNick);
+            }
+            builder.append(": ");
+            builder.append(comment.text);
+            if (i != (comments.size() - 1))
+                builder.append("\n");
+
+        }
+
+        SpannableString spannableString = new SpannableString(builder.toString());
+
+        int position = 0;
+        for (int i = 0; i < comments.size(); i++) {
+
+            LineCommentItem comment = comments.get(i);
+            spannableString.setSpan(new ClickSpan(comment.userId), position, position + comment.userNick.length(),
+                    Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+
+            if (comment.replyUserNick == null) {
+                position += comment.userNick.length() + 3 + comment.text.length(); //3=": "+"\n"
+            } else {
+                position += comment.userNick.length() + 2; //2="回复"
+                spannableString.setSpan(new ClickSpan(comment.replyUserId), position, position + comment.replyUserNick.length(),
+                        Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                position += comment.text.length() + 3 + comment.replyUserNick.length(); //3=": "+"\n"
+            }
+        }
+
+        item.commentSpanStr = spannableString;
+
+    }
+
+
+    private class ClickSpan extends ClickableSpan {
+
+        private int userId;
+
+        public ClickSpan(int userId) {
+            this.userId = userId;
+        }
+
+        @Override
+        public void onClick(View v) {
+
+            Log.e(Config.TAG, "" + userId);
+        }
+
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            ds.setColor(getResources().getColor(R.color.hl));
+            ds.setUnderlineText(false);
+        }
     }
 
 

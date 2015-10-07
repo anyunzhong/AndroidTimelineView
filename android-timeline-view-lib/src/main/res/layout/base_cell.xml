@@ -88,6 +88,12 @@
             </RelativeLayout>
 
 
+            <net.datafans.android.timeline.view.likeCmt.LikeCommentView
+                android:id="@+id/likeCmt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
         </LinearLayout>
 
     </LinearLayout>

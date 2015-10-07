@@ -9,6 +9,7 @@ import java.util.List;
 public class TextImageLineItem extends BaseLineItem {
 
     public String text;
+    public String parsedText;
     public List<String> thumbImages = new ArrayList<>();
     public List<String> srcImages = new ArrayList<>();
     public int width;

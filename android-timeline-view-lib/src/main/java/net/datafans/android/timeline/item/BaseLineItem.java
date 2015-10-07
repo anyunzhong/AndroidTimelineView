@@ -1,5 +1,7 @@
 package net.datafans.android.timeline.item;
 
+import android.text.SpannableString;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,5 +25,8 @@ public abstract class BaseLineItem {
 
     public List<LineLikeItem> likes = new ArrayList<>();
     public List<LineCommentItem> comments = new ArrayList<>();
+
+    public SpannableString likeSpanStr;
+    public SpannableString commentSpanStr;
 
 }
