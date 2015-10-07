@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <net.datafans.android.common.widget.imageview.CommonImageView
+        android:id="@+id/cover"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginBottom="50dp"
+        android:background="@android:color/darker_gray"/>
+
+
+    <FrameLayout
+        android:id="@+id/avatarBg"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="160dp"
+        android:background="@drawable/header_avatar_bg">
+
+        <net.datafans.android.common.widget.imageview.CommonImageView
+            android:id="@+id/userAvatar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"/>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/userNick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="165dp"
+        android:layout_toLeftOf="@+id/avatarBg"
+        android:textColor="@android:color/white"/>
+
+</RelativeLayout>

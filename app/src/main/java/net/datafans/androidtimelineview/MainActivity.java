@@ -1,9 +1,11 @@
 package net.datafans.androidtimelineview;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import net.datafans.android.timeline.adapter.CellAdapterManager;
 import net.datafans.android.timeline.adapter.TextImageLineCellAdapter;
+import net.datafans.android.timeline.config.Config;
 import net.datafans.android.timeline.controller.TimelineViewController;
 import net.datafans.android.timeline.item.LineCommentItem;
 import net.datafans.android.timeline.item.LineItemType;
@@ -34,6 +36,9 @@ public class MainActivity extends TimelineViewController {
         return "朋友圈";
     }
 
+
+
+    private TextImageLineItem textImageItem3;
     private void addItems() {
 
 
@@ -153,7 +158,7 @@ public class MainActivity extends TimelineViewController {
         addItem(textImageItem2);
 
 
-        TextImageLineItem textImageItem3 = new TextImageLineItem();
+        textImageItem3 = new TextImageLineItem();
         textImageItem3.itemId = 3;
         textImageItem3.itemType = LineItemType.TextImage;
         textImageItem3.userId = 10088;
@@ -164,7 +169,7 @@ public class MainActivity extends TimelineViewController {
 
         textImageItem3.srcImages.add("http://file-cdn.datafans.net/temp/21.jpg");
 
-        textImageItem3.thumbImages.add("http://file-cdn.datafans.net/temp/21.jpg_160x160.jpeg");
+        textImageItem3.thumbImages.add("http://file-cdn.datafans.net/temp/21.jpg_480x270.jpeg");
 
 
         textImageItem3.width = 640;
@@ -175,4 +180,43 @@ public class MainActivity extends TimelineViewController {
         addItem(textImageItem3);
     }
 
+
+    @Override
+    protected String getCover(int width, int height) {
+        String url = String.format("http://file-cdn.datafans.net/temp/12.jpg_%dx%d.jpeg", width, height);
+        Log.e(Config.TAG, url);
+        return url;
+    }
+
+
+    @Override
+    protected String getUserAvatar(int width, int height) {
+        return String.format("http://file-cdn.datafans.net/avatar/1.jpeg_%dx%d.jpeg", width, height);
+    }
+
+
+    @Override
+    protected String getUserNick() {
+        return "Allen";
+    }
+
+    @Override
+    public void onRefresh() {
+        super.onRefresh();
+
+        onEnd();
+
+    }
+
+
+    @Override
+    public void onLoadMore() {
+        super.onLoadMore();
+
+
+        addItem(textImageItem3);
+
+        onEnd();
+
+    }
 }

@@ -3,26 +3,26 @@
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <com.loopj.android.image.SmartImageView
+        android:id="@+id/image_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:scaleType="centerInside"
+        android:visibility="gone"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal">
-
-
-        <net.datafans.android.common.widget.imageview.CommonImageView
-            android:id="@+id/image_one"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"/>
-
-
         <net.datafans.android.common.widget.imageview.CommonImageView
             android:id="@+id/image_0"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_marginRight="3dp" />
+            android:layout_marginRight="3dp"
+            android:visibility="gone"/>
 
 
         <net.datafans.android.common.widget.imageview.CommonImageView
@@ -30,7 +30,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_marginRight="3dp" />
+            android:layout_marginRight="3dp"
+            android:visibility="gone"/>
 
 
         <net.datafans.android.common.widget.imageview.CommonImageView
@@ -38,7 +39,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_marginRight="3dp" />
+            android:layout_marginRight="3dp"
+            android:visibility="gone"/>
 
     </LinearLayout>
 
@@ -55,7 +57,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_marginRight="3dp" />
+            android:layout_marginRight="3dp"
+            android:visibility="gone"/>
 
 
         <net.datafans.android.common.widget.imageview.CommonImageView
@@ -63,7 +66,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_marginRight="3dp" />
+            android:layout_marginRight="3dp"
+            android:visibility="gone"/>
 
 
         <net.datafans.android.common.widget.imageview.CommonImageView
@@ -71,7 +75,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_marginRight="3dp" />
+            android:layout_marginRight="3dp"
+            android:visibility="gone"/>
 
     </LinearLayout>
 
@@ -88,7 +93,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_marginRight="3dp" />
+            android:layout_marginRight="3dp"
+            android:visibility="gone"/>
 
 
         <net.datafans.android.common.widget.imageview.CommonImageView
@@ -96,7 +102,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_marginRight="3dp" />
+            android:layout_marginRight="3dp"
+            android:visibility="gone"/>
 
 
         <net.datafans.android.common.widget.imageview.CommonImageView
@@ -104,7 +111,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_marginRight="3dp" />
+            android:layout_marginRight="3dp"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

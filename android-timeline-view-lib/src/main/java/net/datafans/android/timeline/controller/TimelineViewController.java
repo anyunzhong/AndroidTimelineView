@@ -1,10 +1,21 @@
 package net.datafans.android.timeline.controller;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.util.Log;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import net.datafans.android.common.helper.DipHelper;
 import net.datafans.android.common.widget.controller.TableViewController;
+import net.datafans.android.common.widget.imageview.CommonImageView;
 import net.datafans.android.common.widget.table.TableViewCell;
 import net.datafans.android.common.widget.table.refresh.RefreshControlType;
+import net.datafans.android.timeline.R;
 import net.datafans.android.timeline.adapter.BaseLineCellAdapter;
 import net.datafans.android.timeline.adapter.CellAdapterManager;
 import net.datafans.android.timeline.item.BaseLineItem;
@@ -16,10 +27,49 @@ import java.util.List;
 /**
  * Created by zhonganyun on 15/10/6.
  */
-public class TimelineViewController extends TableViewController<BaseLineItem> {
+public abstract class TimelineViewController extends TableViewController<BaseLineItem> {
 
 
     private List<BaseLineItem> items = new ArrayList<>();
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+
+        tableView.getAdapter().getListView().setSelector(new ColorDrawable(Color.TRANSPARENT));
+        tableView.hideDivider();
+
+
+        initHeaderView();
+    }
+
+
+    private void initHeaderView() {
+
+        View header = getLayoutInflater().inflate(R.layout.header, null);
+        tableView.getAdapter().getListView().addHeaderView(header);
+
+        CommonImageView cover = (CommonImageView) header.findViewById(R.id.cover);
+
+
+        WindowManager wm = this.getWindowManager();
+        int width = wm.getDefaultDisplay().getWidth();
+        cover.loadImage(getCover(width, DipHelper.dip2px(this, 200)));
+
+        CommonImageView userAvatar = (CommonImageView) header.findViewById(R.id.userAvatar);
+        userAvatar.loadImage(getUserAvatar(160, 160));
+
+        TextView userNick = (TextView) header.findViewById(R.id.userNick);
+        userNick.setText(getUserNick());
+    }
+
+
+    protected abstract String getCover(int width, int height);
+    protected abstract String getUserAvatar(int width, int height);
+    protected abstract String getUserNick();
+
 
     @Override
     protected RefreshControlType getRefreshControlType() {
@@ -84,7 +134,7 @@ public class TimelineViewController extends TableViewController<BaseLineItem> {
     }
 
 
-    protected void addItem(BaseLineItem item){
+    protected void addItem(BaseLineItem item) {
         items.add(item);
     }
 

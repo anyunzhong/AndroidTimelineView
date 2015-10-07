@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import net.datafans.android.common.helper.TimeHelper;
 import net.datafans.android.common.widget.imageview.CommonImageView;
 import net.datafans.android.common.widget.table.TableViewCell;
 import net.datafans.android.timeline.R;
@@ -20,6 +21,7 @@ public abstract class BaseLineCell extends TableViewCell<BaseLineItem> {
     private TextView userNickView;
     private TextView titleView;
     private TextView locationView;
+    private TextView timeView;
 
     protected LinearLayout contentView;
 
@@ -35,6 +37,7 @@ public abstract class BaseLineCell extends TableViewCell<BaseLineItem> {
 
 
         locationView = (TextView) cell.findViewById(R.id.location);
+        timeView = (TextView) cell.findViewById(R.id.time);
     }
 
     @Override
@@ -55,5 +58,7 @@ public abstract class BaseLineCell extends TableViewCell<BaseLineItem> {
             locationView.setVisibility(View.VISIBLE);
             locationView.setText(item.location);
         }
+
+        timeView.setText(TimeHelper.prettyTime(item.ts));
     }
 }

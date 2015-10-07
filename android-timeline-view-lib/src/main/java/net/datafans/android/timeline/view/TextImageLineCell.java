@@ -74,5 +74,8 @@ public class TextImageLineCell extends BaseLineCell {
         if (textImageLineItem != null)
             imageGridView.updateWithImage(textImageLineItem.thumbImages);
 
+
+
+
     }
 }
