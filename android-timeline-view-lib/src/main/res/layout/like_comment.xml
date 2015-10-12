@@ -37,14 +37,14 @@
         android:layout_marginTop="4dp"
         android:background="#cfcfcf"/>
 
-    <TextView
-        android:id="@+id/comments"
+
+    <LinearLayout
+        android:id="@+id/commentLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:lineSpacingMultiplier="1.4"
         android:layout_marginTop="5dp"
-        android:layout_marginLeft="7dp"
-        android:layout_marginRight="7dp"/>
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:orientation="vertical"/>
 
 </LinearLayout>

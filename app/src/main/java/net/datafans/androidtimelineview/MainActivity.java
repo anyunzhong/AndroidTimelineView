@@ -90,6 +90,7 @@ public class MainActivity extends TimelineViewController {
 
 
         LineCommentItem commentItem1_1 = new LineCommentItem();
+        commentItem1_1.commentId = 1000;
         commentItem1_1.userId = 10086;
         commentItem1_1.userNick = "习大大";
         commentItem1_1.text = "精彩 大家鼓掌";
@@ -97,6 +98,7 @@ public class MainActivity extends TimelineViewController {
 
 
         LineCommentItem commentItem1_2 = new LineCommentItem();
+        commentItem1_2.commentId = 100980;
         commentItem1_2.userId = 10088;
         commentItem1_2.userNick = "奥巴马";
         commentItem1_2.text = "欢迎来到美利坚";
@@ -106,6 +108,7 @@ public class MainActivity extends TimelineViewController {
 
 
         LineCommentItem commentItem1_3 = new LineCommentItem();
+        commentItem1_3.commentId = 456567;
         commentItem1_3.userId = 10010;
         commentItem1_3.userNick = "神雕侠侣";
         commentItem1_3.text = "呵呵";
@@ -141,6 +144,7 @@ public class MainActivity extends TimelineViewController {
         textImageItem2.likes.add(likeItem2_1);
 
         LineCommentItem commentItem2_1 = new LineCommentItem();
+        commentItem2_1.commentId = 31000;
         commentItem2_1.userId = 10088;
         commentItem2_1.userNick = "奥巴马";
         commentItem2_1.text = "欢迎来到美利坚";
@@ -149,6 +153,7 @@ public class MainActivity extends TimelineViewController {
         textImageItem2.comments.add(commentItem2_1);
 
         LineCommentItem commentItem2_2 = new LineCommentItem();
+        commentItem2_2.commentId = 166000;
         commentItem2_2.userId = 10010;
         commentItem2_2.userNick = "神雕侠侣";
         commentItem2_2.text = "大家好";

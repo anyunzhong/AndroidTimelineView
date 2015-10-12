@@ -1,18 +1,22 @@
 package net.datafans.android.timeline.view.likeCmt;
 
 import android.content.Context;
-import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import net.datafans.android.common.helper.DipHelper;
 import net.datafans.android.timeline.R;
 import net.datafans.android.timeline.item.BaseLineItem;
 import net.datafans.android.timeline.item.LineCommentItem;
 import net.datafans.android.timeline.item.LineLikeItem;
+import net.datafans.android.timeline.view.span.LinkTouchMovementMethod;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,7 +33,9 @@ public class LikeCommentView extends FrameLayout {
 
     private View dividerView;
 
-    private TextView commentView;
+    private LinearLayout commentLayout;
+
+    private List<TextView> commentViews = new ArrayList<>();
 
     public LikeCommentView(Context context) {
         super(context);
@@ -52,7 +58,7 @@ public class LikeCommentView extends FrameLayout {
         addView(view);
 
         likeView = (TextView) view.findViewById(R.id.likes);
-        likeView.setMovementMethod(LinkMovementMethod.getInstance());
+        likeView.setMovementMethod(new LinkTouchMovementMethod());
         likeView.setClickable(false);
         likeView.setLinksClickable(true);
 
@@ -61,9 +67,7 @@ public class LikeCommentView extends FrameLayout {
 
         dividerView = view.findViewById(R.id.divider);
 
-
-        commentView = (TextView) view.findViewById(R.id.comments);
-        commentView.setMovementMethod(LinkMovementMethod.getInstance());
+        commentLayout = (LinearLayout) view.findViewById(R.id.commentLayout);
 
     }
 
@@ -91,12 +95,58 @@ public class LikeCommentView extends FrameLayout {
         }
 
         if (comments.isEmpty()) {
-            commentView.setVisibility(GONE);
-        } else {
-            commentView.setVisibility(VISIBLE);
 
-            if (item.commentSpanStr != null)
-                commentView.setText(item.commentSpanStr);
+            commentLayout.setVisibility(GONE);
+
+
+            for (TextView textView : commentViews) {
+                textView.setText("");
+                textView.setVisibility(GONE);
+            }
+        } else {
+
+            commentLayout.setVisibility(VISIBLE);
+
+
+            int textViewCount = commentViews.size();
+            for (int i=0; i<textViewCount; i++) {
+                TextView textView = commentViews.get(i);
+                textView.setText("");
+                if (i<item.comments.size()){
+                    textView.setVisibility(VISIBLE);
+                }else{
+                    textView.setVisibility(GONE);
+                }
+            }
+
+            for (int i=0;i<item.comments.size();i++) {
+
+                TextView textView;
+
+                if ( textViewCount > 0 && i < textViewCount) {
+                    textView = commentViews.get(i);
+                }else{
+
+                    textView = new TextView(context);
+                    textView.setMovementMethod(new LinkTouchMovementMethod());
+                    textView.setClickable(false);
+                    textView.setLinksClickable(true);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    params.setMargins(0,0,0, DipHelper.dip2px(context,2));
+                    commentLayout.addView(textView, params);
+                    commentViews.add(textView);
+                }
+
+
+                LineCommentItem commentItem = item.comments.get(i);
+
+                LinkTouchMovementMethod method = (LinkTouchMovementMethod) textView.getMovementMethod();
+                method.setUniqueId(commentItem.commentId);
+
+                textView.setVisibility(VISIBLE);
+                textView.setText(item.commentSpanStrs.get(i));
+            }
+
         }
     }
 

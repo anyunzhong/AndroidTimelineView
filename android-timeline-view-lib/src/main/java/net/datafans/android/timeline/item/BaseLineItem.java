@@ -27,6 +27,7 @@ public abstract class BaseLineItem {
     public List<LineCommentItem> comments = new ArrayList<>();
 
     public SpannableString likeSpanStr;
-    public SpannableString commentSpanStr;
+
+    public List<SpannableString> commentSpanStrs = new ArrayList<>();
 
 }
