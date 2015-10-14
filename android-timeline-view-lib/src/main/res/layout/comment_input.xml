@@ -21,6 +21,8 @@
             android:layout_width="0dp"
             android:layout_weight="8"
             android:layout_height="45dp"
+            android:textColorHint="#e6e6e6"
+            android:textColor="@android:color/black"
             android:background="@drawable/comment_edit_text_bg"/>
 
         <Button

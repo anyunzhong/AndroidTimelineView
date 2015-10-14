@@ -21,6 +21,7 @@ public class LinkTouchMovementMethod extends LinkMovementMethod {
     private TouchSpan mPressedSpan;
 
     private long uniqueId;
+    private long itemId;
 
     @Override
     public boolean onTouchEvent(TextView textView, Spannable spannable, MotionEvent event) {
@@ -43,10 +44,13 @@ public class LinkTouchMovementMethod extends LinkMovementMethod {
                 mPressedSpan.setPressed(false);
                 super.onTouchEvent(textView, spannable, event);
             }else{
-                Log.e(Config.TAG, "点击了label其它地方: " +uniqueId);
-                CommentClickEvent commentClickEvent = new CommentClickEvent();
-                commentClickEvent.uniqueId = uniqueId;
-                EventBus.getDefault().post(commentClickEvent);
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    Log.e(Config.TAG, "点击了label其它地方: " + uniqueId);
+                    CommentClickEvent commentClickEvent = new CommentClickEvent();
+                    commentClickEvent.uniqueId = uniqueId;
+                    commentClickEvent.itemId = itemId;
+                    EventBus.getDefault().post(commentClickEvent);
+                }
             }
             mPressedSpan = null;
             Selection.removeSelection(spannable);
@@ -77,11 +81,11 @@ public class LinkTouchMovementMethod extends LinkMovementMethod {
         return touchedSpan;
     }
 
-    public long getUniqueId() {
-        return uniqueId;
-    }
-
     public void setUniqueId(long uniqueId) {
         this.uniqueId = uniqueId;
+    }
+
+    public void setItemId(long itemId) {
+        this.itemId = itemId;
     }
 }

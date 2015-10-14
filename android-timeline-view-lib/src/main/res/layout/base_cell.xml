@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -17,13 +17,14 @@
             android:layout_height="45dp"
             android:background="@android:color/darker_gray" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/nickLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -51,55 +52,148 @@
                 android:id="@+id/content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/nickLayout"
                 android:layout_marginTop="7dp"
                 android:orientation="vertical">
 
             </LinearLayout>
 
 
-            <TextView
-                android:id="@+id/location"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
-                android:textColor="@android:color/darker_gray"
-                android:textSize="10sp" />
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="1dp">
+                android:layout_below="@+id/content">
 
-                <TextView
-                    android:id="@+id/time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="12sp" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/timeLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginTop="1dp">
+
+
+                        <TextView
+                            android:id="@+id/location"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="7dp"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="10sp" />
+
+                        <TextView
+                            android:id="@+id/time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/location"
+                            android:layout_marginTop="6dp"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="12sp" />
+
+                        <RelativeLayout
+                            android:layout_width="50dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentRight="true">
+                            <ImageView
+                                android:id="@+id/album_opt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:src="@mipmap/album_operation" />
+
+                        </RelativeLayout>
+
+
+                    </RelativeLayout>
+
+                    <net.datafans.android.timeline.view.likeCmt.LikeCommentView
+                        android:id="@+id/likeCmt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/album_toolbar"
+                    android:layout_width="150dp"
+                    android:layout_height="35dp"
                     android:layout_alignParentRight="true"
-                    android:src="@mipmap/album_operation" />
+                    android:layout_marginRight="30dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@color/hl"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <RelativeLayout
+                        android:id="@+id/toolbarLike"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:layout_weight="1">
+                        <ImageView
+                            android:id="@+id/toolbarLikeImage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="18dp"
+                            android:src="@mipmap/toolbar_like"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/toolbarLikeImage"
+                            android:text="赞"
+                            android:layout_marginLeft="2dp"
+                            android:textColor="@android:color/white"/>
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="0.5dp"
+                        android:layout_height="21dp"
+                        android:background="@color/hl_dk" />
+
+                    <RelativeLayout
+                        android:id="@+id/toolbarComment"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:id="@+id/toolbarCommentImage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="13dp"
+                            android:src="@mipmap/toolbar_comment"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/toolbarCommentImage"
+                            android:text="评论"
+                            android:layout_marginLeft="2dp"
+                            android:textColor="@android:color/white"/>
+                    </RelativeLayout>
+
+                </LinearLayout>
 
 
             </RelativeLayout>
 
 
-            <net.datafans.android.timeline.view.likeCmt.LikeCommentView
-                android:id="@+id/likeCmt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-
-        </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.2dp"
+        android:layout_alignParentBottom="true"
         android:background="#d4d4d4" />
-</LinearLayout>
+
+
+</RelativeLayout>

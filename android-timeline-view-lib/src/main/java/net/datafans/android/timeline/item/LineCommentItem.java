@@ -10,4 +10,16 @@ public class LineCommentItem {
     public int replyUserId;
     public String replyUserNick;
     public String text;
+
+    @Override
+    public String toString() {
+        return "LineCommentItem{" +
+                "commentId=" + commentId +
+                ", userId=" + userId +
+                ", userNick='" + userNick + '\'' +
+                ", replyUserId=" + replyUserId +
+                ", replyUserNick='" + replyUserNick + '\'' +
+                ", text='" + text + '\'' +
+                '}';
+    }
 }

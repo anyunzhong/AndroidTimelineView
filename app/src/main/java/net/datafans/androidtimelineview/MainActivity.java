@@ -224,4 +224,23 @@ public class MainActivity extends TimelineViewController {
         onEnd();
 
     }
+
+    @Override
+    protected void onCommentCreate(long itemId, long commentId, String text) {
+
+        LineCommentItem commentItem = new LineCommentItem();
+        commentItem.commentId = System.currentTimeMillis();
+        commentItem.userId = 10014;
+        commentItem.userNick = "金三胖";
+        commentItem.text = text;
+        addCommentItem(commentItem,itemId, commentId);
+    }
+
+    @Override
+    protected void onLikeCreate(long itemId) {
+        LineLikeItem likeItem = new LineLikeItem();
+        likeItem.userId = 1001188;
+        likeItem.userNick = "酸菜鱼";
+        addLikeItem(likeItem, itemId);
+    }
 }

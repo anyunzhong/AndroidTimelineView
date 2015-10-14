@@ -142,6 +142,7 @@ public class LikeCommentView extends FrameLayout {
 
                 LinkTouchMovementMethod method = (LinkTouchMovementMethod) textView.getMovementMethod();
                 method.setUniqueId(commentItem.commentId);
+                method.setItemId(item.itemId);
 
                 textView.setVisibility(VISIBLE);
                 textView.setText(item.commentSpanStrs.get(i));

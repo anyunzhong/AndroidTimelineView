@@ -25,6 +25,10 @@ public class CommentInputView extends FrameLayout {
     private Button sendButton;
     private View mask;
 
+    private long commentId;
+
+    private Delegate delegate;
+
     public CommentInputView(Context context) {
         super(context);
         this.context = context;
@@ -53,6 +57,15 @@ public class CommentInputView extends FrameLayout {
             @Override
             public void onClick(View view) {
                 hide();
+                if (delegate == null) return;
+
+                String text = editText.getText().toString();
+
+                editText.setText("");
+
+                if (text.equals("")) return;
+
+                delegate.onCommentCreate(commentId, text);
             }
         });
 
@@ -71,6 +84,27 @@ public class CommentInputView extends FrameLayout {
         setVisibility(GONE);
         InputMethodManager inputManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+    }
+
+
+    public void setPlaceHolder(String text){
+        editText.setHint(text);
+    }
+
+
+
+    public void setDelegate(Delegate delegate) {
+        this.delegate = delegate;
+    }
+
+    public void setCommentId(long commentId) {
+        this.commentId = commentId;
+    }
+
+
+    public static interface Delegate {
+
+        void onCommentCreate(long commentId, String text);
     }
 
 

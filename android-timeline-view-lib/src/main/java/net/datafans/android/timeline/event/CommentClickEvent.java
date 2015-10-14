@@ -5,4 +5,5 @@ package net.datafans.android.timeline.event;
  */
 public class CommentClickEvent {
     public long uniqueId;
+    public long itemId;
 }

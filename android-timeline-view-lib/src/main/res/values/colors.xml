@@ -2,5 +2,6 @@
 <resources>
 
     <color name="hl">#4f6591</color>
+    <color name="hl_dk">#25255b</color>
 
 </resources>

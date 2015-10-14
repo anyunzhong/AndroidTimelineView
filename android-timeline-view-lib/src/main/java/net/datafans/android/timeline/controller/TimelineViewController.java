@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -13,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import net.datafans.android.common.event.BaseEvent;
 import net.datafans.android.common.helper.DipHelper;
 import net.datafans.android.common.widget.controller.TableViewController;
 import net.datafans.android.common.widget.imageview.CommonImageView;
@@ -22,30 +22,37 @@ import net.datafans.android.common.widget.table.refresh.RefreshControlType;
 import net.datafans.android.timeline.R;
 import net.datafans.android.timeline.adapter.BaseLineCellAdapter;
 import net.datafans.android.timeline.adapter.CellAdapterManager;
+import net.datafans.android.timeline.config.Config;
 import net.datafans.android.timeline.event.CommentClickEvent;
 import net.datafans.android.timeline.item.BaseLineItem;
 import net.datafans.android.timeline.item.LineCommentItem;
 import net.datafans.android.timeline.item.LineItemType;
 import net.datafans.android.timeline.item.LineLikeItem;
+import net.datafans.android.timeline.view.BaseLineCell;
 import net.datafans.android.timeline.view.commentInput.CommentInputView;
 import net.datafans.android.timeline.view.span.TouchSpan;
 
-import org.w3c.dom.Comment;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.greenrobot.event.EventBus;
 
 /**
  * Created by zhonganyun on 15/10/6.
  */
-public abstract class TimelineViewController extends TableViewController<BaseLineItem> {
+public abstract class TimelineViewController extends TableViewController<BaseLineItem> implements CommentInputView.Delegate, BaseLineCell.BaseLineCellDelegate {
 
 
     private List<BaseLineItem> items = new ArrayList<>();
 
     private CommentInputView inputView;
+
+    private long currentItemId;
+
+    private Map<Long, BaseLineItem> itemMap = new HashMap<>();
+    private Map<Long, LineCommentItem> commentItemMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,17 +74,11 @@ public abstract class TimelineViewController extends TableViewController<BaseLin
 
 
 
-    public void onEvent(Object event) {
-        if (event instanceof CommentClickEvent){
-            CommentClickEvent commentClickEvent = (CommentClickEvent)event;
-            inputView.show();
-        }
-    }
 
 
     @Override
     protected int getStatusBarColor() {
-        return Color.rgb(30,35,46);
+        return Color.rgb(30, 35, 46);
     }
 
     private void initHeaderView() {
@@ -103,8 +104,9 @@ public abstract class TimelineViewController extends TableViewController<BaseLin
     private void initCommentInputView() {
         inputView = new CommentInputView(this);
         inputView.setVisibility(View.GONE);
+        inputView.setDelegate(this);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        containerParent.addView(inputView,params);
+        containerParent.addView(inputView, params);
     }
 
 
@@ -132,7 +134,9 @@ public abstract class TimelineViewController extends TableViewController<BaseLin
 
         BaseLineItem item = items.get(row);
         BaseLineCellAdapter adapter = getAdapter(item.itemType);
-        return adapter.getCell();
+        BaseLineCell cell = (BaseLineCell) adapter.getCell();
+        cell.setDelegate(this);
+        return cell;
     }
 
 
@@ -172,6 +176,27 @@ public abstract class TimelineViewController extends TableViewController<BaseLin
     }
 
 
+
+
+
+
+    @SuppressWarnings("unused")
+    public void onEvent(Object event) {
+        if (event instanceof CommentClickEvent) {
+            CommentClickEvent commentClickEvent = (CommentClickEvent) event;
+            inputView.show();
+            inputView.setCommentId(commentClickEvent.uniqueId);
+            LineCommentItem commentItem = commentItemMap.get(commentClickEvent.uniqueId);
+            if (commentItem!=null)
+            inputView.setPlaceHolder("回复:"+commentItem.userNick);
+            currentItemId = commentClickEvent.itemId;
+
+
+        }
+    }
+
+
+
     private BaseLineCellAdapter getAdapter(int itemType) {
         CellAdapterManager manager = CellAdapterManager.sharedInstance();
         return manager.getAdapter(itemType);
@@ -180,10 +205,62 @@ public abstract class TimelineViewController extends TableViewController<BaseLin
 
     protected void addItem(BaseLineItem item) {
         items.add(item);
+        itemMap.put(item.itemId, item);
         genLikeSpanStr(item);
         genCommentSpanStr(item);
     }
 
+
+    protected void addLikeItem(LineLikeItem likeItem, long itemId){
+        BaseLineItem item = itemMap.get(itemId);
+        if (item == null) return;
+
+        item.likes.add(0, likeItem);
+        genLikeSpanStr(item);
+        tableView.reloadData();
+    }
+
+
+    protected void addCommentItem(LineCommentItem commentItem, long itemId, long replyCommentId) {
+        BaseLineItem item = itemMap.get(itemId);
+        if (item == null) return;
+
+        if (replyCommentId > 0) {
+            LineCommentItem replyCommentItem = commentItemMap.get(replyCommentId);
+            if (replyCommentItem == null) return;
+            commentItem.replyUserNick = replyCommentItem.userNick;
+            commentItem.replyUserId = replyCommentItem.userId;
+        }
+
+        item.comments.add(commentItem);
+        genCommentSpanStr(item);
+    }
+
+    @Override
+    public void onCommentCreate(long commentId, String text) {
+        //Log.e(Config.TAG, "commentId: " +commentId  +  "  itemId: " + currentItemId);
+        onCommentCreate(currentItemId, commentId, text);
+    }
+
+    protected abstract void onCommentCreate(long itemId, long commentId, String text);
+
+
+    @Override
+    public void onLikeClick(long itemId) {
+        onLikeCreate(itemId);
+    }
+
+
+    protected abstract void  onLikeCreate(long itemId);
+
+
+    @Override
+    public void onCommentClick(long itemId) {
+        currentItemId = itemId;
+        inputView.show();
+        inputView.setCommentId(0);
+
+    }
 
     private void genLikeSpanStr(BaseLineItem item) {
 
@@ -215,11 +292,16 @@ public abstract class TimelineViewController extends TableViewController<BaseLin
 
     private void genCommentSpanStr(BaseLineItem item) {
 
+
+        item.commentSpanStrs.clear();
+
         List<LineCommentItem> comments = item.comments;
 
         for (int i = 0; i < comments.size(); i++) {
 
             LineCommentItem comment = comments.get(i);
+
+            commentItemMap.put(comment.commentId, comment);
 
             StringBuilder builder = new StringBuilder();
             builder.append(comment.userNick);
