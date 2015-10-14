@@ -20,7 +20,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile('net.datafans:android-common-lib:1.2.61')
+    compile('net.datafans:android-common-lib:1.2.62')
             {
                 exclude group: 'com.google.android', module: 'support-v4'
             }

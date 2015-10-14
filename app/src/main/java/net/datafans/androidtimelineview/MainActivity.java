@@ -37,8 +37,8 @@ public class MainActivity extends TimelineViewController {
     }
 
 
-
     private TextImageLineItem textImageItem3;
+
     private void addItems() {
 
 
@@ -205,6 +205,12 @@ public class MainActivity extends TimelineViewController {
         return "Allen";
     }
 
+
+    @Override
+    protected int getUserId() {
+        return 123478;
+    }
+
     @Override
     public void onRefresh() {
         super.onRefresh();
@@ -233,7 +239,7 @@ public class MainActivity extends TimelineViewController {
         commentItem.userId = 10014;
         commentItem.userNick = "金三胖";
         commentItem.text = text;
-        addCommentItem(commentItem,itemId, commentId);
+        addCommentItem(commentItem, itemId, commentId);
     }
 
     @Override
@@ -242,5 +248,11 @@ public class MainActivity extends TimelineViewController {
         likeItem.userId = 1001188;
         likeItem.userNick = "酸菜鱼";
         addLikeItem(likeItem, itemId);
+    }
+
+
+    @Override
+    protected void onUserClick(int userId) {
+        Log.d(Config.TAG, "user-click: " + userId);
     }
 }

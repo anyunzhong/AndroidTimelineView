@@ -14,10 +14,13 @@ import net.datafans.android.common.widget.imageview.CommonImageView;
 import net.datafans.android.common.widget.table.TableViewCell;
 import net.datafans.android.timeline.R;
 import net.datafans.android.timeline.config.Config;
+import net.datafans.android.timeline.event.UserClickEvent;
 import net.datafans.android.timeline.item.BaseLineItem;
 import net.datafans.android.timeline.view.likeCmt.LikeCommentView;
 
 import java.util.Set;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by zhonganyun on 15/10/6.
@@ -55,7 +58,20 @@ public abstract class BaseLineCell extends TableViewCell<BaseLineItem> {
     public BaseLineCell(int layout, Context context) {
         super(layout, context);
 
+        cell.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (delegate != null)
+                    delegate.onCellClick();
+            }
+        });
         userAvatarView = (CommonImageView) cell.findViewById(R.id.userAvatar);
+        userAvatarView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EventBus.getDefault().post(new UserClickEvent(BaseLineCell.this.item.userId));
+            }
+        });
         userNickView = (TextView) cell.findViewById(R.id.userNick);
         titleView = (TextView) cell.findViewById(R.id.title);
 
@@ -77,6 +93,8 @@ public abstract class BaseLineCell extends TableViewCell<BaseLineItem> {
             @Override
             public void onClick(View view) {
                 swicthToolbar();
+                if (delegate != null)
+                    delegate.onAlbumOptViewClick(BaseLineCell.this);
             }
         });
 
@@ -87,7 +105,7 @@ public abstract class BaseLineCell extends TableViewCell<BaseLineItem> {
             @Override
             public void onClick(View view) {
                 swicthToolbar();
-                if (delegate != null){
+                if (delegate != null) {
                     delegate.onLikeClick(item.itemId);
                 }
             }
@@ -98,7 +116,7 @@ public abstract class BaseLineCell extends TableViewCell<BaseLineItem> {
             @Override
             public void onClick(View view) {
                 swicthToolbar();
-                if (delegate != null){
+                if (delegate != null) {
                     delegate.onCommentClick(item.itemId);
                 }
             }
@@ -108,7 +126,7 @@ public abstract class BaseLineCell extends TableViewCell<BaseLineItem> {
     }
 
 
-    private void swicthToolbar(){
+    private void swicthToolbar() {
         if (!isToolbarShow)
             albumToolbar.setVisibility(View.VISIBLE);
         else
@@ -156,8 +174,20 @@ public abstract class BaseLineCell extends TableViewCell<BaseLineItem> {
     }
 
 
-    public interface  BaseLineCellDelegate{
+    public void hideAlbumOptView() {
+        if (!isToolbarShow) return;
+        swicthToolbar();
+    }
+
+
+    public interface BaseLineCellDelegate {
+
+        void onAlbumOptViewClick(BaseLineCell cell);
+
         void onLikeClick(long itemId);
+
         void onCommentClick(long itemId);
+
+        void onCellClick();
     }
 }

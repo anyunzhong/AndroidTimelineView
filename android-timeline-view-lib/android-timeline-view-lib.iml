@@ -91,16 +91,16 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 22 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="eventbus-2.4.0" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-22.2.0" level="project" />
+    <orderEntry type="library" exported="" name="eventbus-2.4.0" level="project" />
     <orderEntry type="library" exported="" name="ultra-ptr-1.0.9" level="project" />
     <orderEntry type="library" exported="" name="android-async-http-1.4.7" level="project" />
     <orderEntry type="library" exported="" name="bga-refresh-layout-lib-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="butterknife-6.1.0" level="project" />
     <orderEntry type="library" exported="" name="trinea-android-common-lib-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="viewPagerIndicator_Library-1.0.3" level="project" />
-    <orderEntry type="library" exported="" name="android-common-lib-1.2.61" level="project" />
     <orderEntry type="library" exported="" name="support-v4-22.2.0" level="project" />
+    <orderEntry type="library" exported="" name="android-common-lib-1.2.62" level="project" />
     <orderEntry type="library" exported="" name="fastjson-1.2.6" level="project" />
     <orderEntry type="library" exported="" name="cube-sdk-1.0.44" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-22.1.1" level="project" />

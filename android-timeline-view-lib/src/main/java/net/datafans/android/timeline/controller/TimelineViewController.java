@@ -24,6 +24,7 @@ import net.datafans.android.timeline.adapter.BaseLineCellAdapter;
 import net.datafans.android.timeline.adapter.CellAdapterManager;
 import net.datafans.android.timeline.config.Config;
 import net.datafans.android.timeline.event.CommentClickEvent;
+import net.datafans.android.timeline.event.UserClickEvent;
 import net.datafans.android.timeline.item.BaseLineItem;
 import net.datafans.android.timeline.item.LineCommentItem;
 import net.datafans.android.timeline.item.LineItemType;
@@ -51,6 +52,8 @@ public abstract class TimelineViewController extends TableViewController<BaseLin
 
     private long currentItemId;
 
+    private BaseLineCell currentOptCell;
+
     private Map<Long, BaseLineItem> itemMap = new HashMap<>();
     private Map<Long, LineCommentItem> commentItemMap = new HashMap<>();
 
@@ -73,9 +76,6 @@ public abstract class TimelineViewController extends TableViewController<BaseLin
     }
 
 
-
-
-
     @Override
     protected int getStatusBarColor() {
         return Color.rgb(30, 35, 46);
@@ -96,6 +96,12 @@ public abstract class TimelineViewController extends TableViewController<BaseLin
 
         CommonImageView userAvatar = (CommonImageView) header.findViewById(R.id.userAvatar);
         userAvatar.loadImage(getUserAvatar(160, 160));
+        userAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onUserClick(getUserId());
+            }
+        });
 
         TextView userNick = (TextView) header.findViewById(R.id.userNick);
         userNick.setText(getUserNick());
@@ -115,6 +121,8 @@ public abstract class TimelineViewController extends TableViewController<BaseLin
     protected abstract String getUserAvatar(int width, int height);
 
     protected abstract String getUserNick();
+
+    protected abstract int getUserId();
 
 
     @Override
@@ -176,10 +184,6 @@ public abstract class TimelineViewController extends TableViewController<BaseLin
     }
 
 
-
-
-
-
     @SuppressWarnings("unused")
     public void onEvent(Object event) {
         if (event instanceof CommentClickEvent) {
@@ -187,14 +191,14 @@ public abstract class TimelineViewController extends TableViewController<BaseLin
             inputView.show();
             inputView.setCommentId(commentClickEvent.uniqueId);
             LineCommentItem commentItem = commentItemMap.get(commentClickEvent.uniqueId);
-            if (commentItem!=null)
-            inputView.setPlaceHolder("回复:"+commentItem.userNick);
+            if (commentItem != null)
+                inputView.setPlaceHolder("回复:" + commentItem.userNick);
             currentItemId = commentClickEvent.itemId;
-
-
+        } else if (event instanceof UserClickEvent) {
+            UserClickEvent userClickEvent = (UserClickEvent) event;
+            onUserClick(userClickEvent.userId);
         }
     }
-
 
 
     private BaseLineCellAdapter getAdapter(int itemType) {
@@ -211,7 +215,7 @@ public abstract class TimelineViewController extends TableViewController<BaseLin
     }
 
 
-    protected void addLikeItem(LineLikeItem likeItem, long itemId){
+    protected void addLikeItem(LineLikeItem likeItem, long itemId) {
         BaseLineItem item = itemMap.get(itemId);
         if (item == null) return;
 
@@ -251,8 +255,13 @@ public abstract class TimelineViewController extends TableViewController<BaseLin
     }
 
 
-    protected abstract void  onLikeCreate(long itemId);
+    protected abstract void onLikeCreate(long itemId);
 
+
+    @Override
+    public void onAlbumOptViewClick(BaseLineCell cell) {
+        currentOptCell = cell;
+    }
 
     @Override
     public void onCommentClick(long itemId) {
@@ -261,6 +270,14 @@ public abstract class TimelineViewController extends TableViewController<BaseLin
         inputView.setCommentId(0);
 
     }
+
+    @Override
+    public void onCellClick() {
+        if (currentOptCell != null)
+            currentOptCell.hideAlbumOptView();
+    }
+
+    protected abstract void onUserClick(int userId);
 
     private void genLikeSpanStr(BaseLineItem item) {
 

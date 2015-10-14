@@ -9,6 +9,9 @@ import android.view.View;
 
 import net.datafans.android.timeline.R;
 import net.datafans.android.timeline.config.Config;
+import net.datafans.android.timeline.event.UserClickEvent;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by zhonganyun on 15/10/12.
@@ -52,5 +55,6 @@ public class TouchSpan extends ClickableSpan {
     @Override
     public void onClick(View widget) {
         Log.e(Config.TAG, "" + userId);
+        EventBus.getDefault().post(new UserClickEvent(userId));
     }
 }
