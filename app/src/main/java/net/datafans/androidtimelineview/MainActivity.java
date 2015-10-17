@@ -41,6 +41,8 @@ public class MainActivity extends TimelineViewController {
 
         setUserNick("Allen");
 
+        setUserSign("梦想还是要有的 万一实现了呢");
+
         setUserId(123456);
     }
 

@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
-version = "1.0.7"
+version = "1.0.8"
 
 def siteUrl = 'https://github.com/anyunzhong/AndroidTimelineView' // 项目的主页
 def gitUrl = 'https://github.com/anyunzhong/AndroidTimelineView.git' // Git仓库的url

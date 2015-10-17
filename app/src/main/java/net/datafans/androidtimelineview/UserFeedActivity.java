@@ -35,6 +35,8 @@ public class UserFeedActivity extends UserTimelineViewController {
 
         setUserNick("Allen");
 
+        setUserSign("梦想还是要有的 万一实现了呢");
+
         setUserId(123456);
     }
 

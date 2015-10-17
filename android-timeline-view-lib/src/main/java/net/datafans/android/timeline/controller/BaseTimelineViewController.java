@@ -12,7 +12,6 @@ import net.datafans.android.common.helper.DipHelper;
 import net.datafans.android.common.widget.controller.TableViewController;
 import net.datafans.android.common.widget.imageview.CommonImageView;
 import net.datafans.android.timeline.R;
-import net.datafans.android.timeline.item.BaseLineItem;
 
 /**
  * Created by zhonganyun on 15/10/17.
@@ -24,6 +23,8 @@ public abstract class BaseTimelineViewController<T> extends TableViewController<
     protected CommonImageView userAvatarView;
 
     protected TextView userNickView;
+
+    protected TextView signView;
 
     protected int coverWidth;
     protected int coverHeight;
@@ -76,6 +77,7 @@ public abstract class BaseTimelineViewController<T> extends TableViewController<
         userAvatarSize = 160;
 
         userNickView = (TextView) header.findViewById(R.id.userNick);
+        signView = (TextView) header.findViewById(R.id.sign);
     }
 
 
@@ -96,6 +98,11 @@ public abstract class BaseTimelineViewController<T> extends TableViewController<
 
     protected void setUserId(int userId){
         this.userId = userId;
+    }
+
+
+    protected void setUserSign(String sign) {
+        signView.setText(sign);
     }
 
 
