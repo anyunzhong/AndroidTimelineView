@@ -8,6 +8,11 @@ import java.util.List;
  */
 public class TextImageLineItem extends BaseLineItem {
 
+    public TextImageLineItem(){
+
+        this.itemType = LineItemType.TextImage;
+    }
+
     public String text;
     public String parsedText;
     public List<String> thumbImages = new ArrayList<>();

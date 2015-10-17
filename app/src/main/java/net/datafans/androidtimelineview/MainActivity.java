@@ -1,10 +1,9 @@
 package net.datafans.androidtimelineview;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import net.datafans.android.timeline.adapter.CellAdapterManager;
-import net.datafans.android.timeline.adapter.TextImageLineCellAdapter;
 import net.datafans.android.timeline.config.Config;
 import net.datafans.android.timeline.controller.TimelineViewController;
 import net.datafans.android.timeline.item.LineCommentItem;
@@ -17,23 +16,32 @@ public class MainActivity extends TimelineViewController {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        CellAdapterManager manager = CellAdapterManager.sharedInstance();
-
-        TextImageLineCellAdapter imageLineCellAdapter = new TextImageLineCellAdapter();
-        imageLineCellAdapter.setContext(this);
-        manager.registerAdapter(LineItemType.TextImage, imageLineCellAdapter);
-
-
         addItems();
 
-
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main);
+
+        setHeader();
+
     }
 
     @Override
     protected String getNavTitle() {
         return "朋友圈";
+    }
+
+
+    private void setHeader() {
+        String coverUrl = String.format("http://file-cdn.datafans.net/temp/12.jpg_%dx%d.jpeg", coverWidth, coverHeight);
+        setCover(coverUrl);
+
+
+        String userAvatarUrl = String.format("http://file-cdn.datafans.net/avatar/1.jpeg_%dx%d.jpeg", userAvatarSize, userAvatarSize);
+        setUserAvatar(userAvatarUrl);
+
+
+        setUserNick("Allen");
+
+        setUserId(123456);
     }
 
 
@@ -187,31 +195,6 @@ public class MainActivity extends TimelineViewController {
 
 
     @Override
-    protected String getCover(int width, int height) {
-        String url = String.format("http://file-cdn.datafans.net/temp/12.jpg_%dx%d.jpeg", width, height);
-        Log.e(Config.TAG, url);
-        return url;
-    }
-
-
-    @Override
-    protected String getUserAvatar(int width, int height) {
-        return String.format("http://file-cdn.datafans.net/avatar/1.jpeg_%dx%d.jpeg", width, height);
-    }
-
-
-    @Override
-    protected String getUserNick() {
-        return "Allen";
-    }
-
-
-    @Override
-    protected int getUserId() {
-        return 123478;
-    }
-
-    @Override
     public void onRefresh() {
         super.onRefresh();
 
@@ -254,5 +237,8 @@ public class MainActivity extends TimelineViewController {
     @Override
     protected void onUserClick(int userId) {
         Log.d(Config.TAG, "user-click: " + userId);
+
+        Intent intent = new Intent(this, UserFeedActivity.class);
+        startActivity(intent);
     }
 }

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <net.datafans.android.common.widget.imageview.CommonImageView
+        android:id="@+id/cover"
+        android:layout_width="80dp"
+        android:layout_height="80dp" />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/cover"
+        android:textSize="14sp"
+        android:padding="5dp"
+        android:maxLines="3"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/photoCount"
+        android:layout_width="30dp"
+        android:layout_height="12dp"
+        android:text="共3张"
+        android:textSize="11sp"
+        android:layout_toRightOf="@+id/cover"
+        android:layout_marginLeft="5dp"
+        android:layout_alignParentBottom="true"
+        android:textColor="#a4a4a4"/>
+</RelativeLayout>

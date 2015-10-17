@@ -1,5 +1,6 @@
 package net.datafans.android.timeline.controller;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -9,6 +10,7 @@ import android.text.Spanned;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -22,6 +24,7 @@ import net.datafans.android.common.widget.table.refresh.RefreshControlType;
 import net.datafans.android.timeline.R;
 import net.datafans.android.timeline.adapter.BaseLineCellAdapter;
 import net.datafans.android.timeline.adapter.CellAdapterManager;
+import net.datafans.android.timeline.adapter.TextImageLineCellAdapter;
 import net.datafans.android.timeline.config.Config;
 import net.datafans.android.timeline.event.CommentClickEvent;
 import net.datafans.android.timeline.event.UserClickEvent;
@@ -43,8 +46,10 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by zhonganyun on 15/10/6.
  */
-public abstract class TimelineViewController extends TableViewController<BaseLineItem> implements CommentInputView.Delegate, BaseLineCell.BaseLineCellDelegate {
+public abstract class TimelineViewController extends BaseTimelineViewController<BaseLineItem> implements CommentInputView.Delegate, BaseLineCell.BaseLineCellDelegate {
 
+
+    private View rootView;
 
     private List<BaseLineItem> items = new ArrayList<>();
 
@@ -57,6 +62,8 @@ public abstract class TimelineViewController extends TableViewController<BaseLin
     private Map<Long, BaseLineItem> itemMap = new HashMap<>();
     private Map<Long, LineCommentItem> commentItemMap = new HashMap<>();
 
+    private boolean isKeyboardShow = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -64,48 +71,29 @@ public abstract class TimelineViewController extends TableViewController<BaseLin
 
         super.onCreate(savedInstanceState);
 
+        initAdapters();
+
+        rootView = getRootView(this);
+        rootView.getViewTreeObserver().addOnGlobalLayoutListener(layoutListener);
+
 
         tableView.getAdapter().getListView().setSelector(new ColorDrawable(Color.TRANSPARENT));
         tableView.hideDivider();
 
-
-        initHeaderView();
         initCommentInputView();
 
         EventBus.getDefault().register(this);
     }
 
 
-    @Override
-    protected int getStatusBarColor() {
-        return Color.rgb(30, 35, 46);
+    private void initAdapters(){
+        CellAdapterManager manager = CellAdapterManager.sharedInstance();
+
+        TextImageLineCellAdapter imageLineCellAdapter = new TextImageLineCellAdapter();
+        imageLineCellAdapter.setContext(this);
+        manager.registerAdapter(LineItemType.TextImage, imageLineCellAdapter);
     }
 
-    private void initHeaderView() {
-
-        View header = getLayoutInflater().inflate(R.layout.header, null);
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN)
-            tableView.getAdapter().getListView().addHeaderView(header);
-
-        CommonImageView cover = (CommonImageView) header.findViewById(R.id.cover);
-
-
-        WindowManager wm = this.getWindowManager();
-        int width = wm.getDefaultDisplay().getWidth();
-        cover.loadImage(getCover(width, DipHelper.dip2px(this, 200)));
-
-        CommonImageView userAvatar = (CommonImageView) header.findViewById(R.id.userAvatar);
-        userAvatar.loadImage(getUserAvatar(160, 160));
-        userAvatar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onUserClick(getUserId());
-            }
-        });
-
-        TextView userNick = (TextView) header.findViewById(R.id.userNick);
-        userNick.setText(getUserNick());
-    }
 
     private void initCommentInputView() {
         inputView = new CommentInputView(this);
@@ -116,13 +104,7 @@ public abstract class TimelineViewController extends TableViewController<BaseLin
     }
 
 
-    protected abstract String getCover(int width, int height);
 
-    protected abstract String getUserAvatar(int width, int height);
-
-    protected abstract String getUserNick();
-
-    protected abstract int getUserId();
 
 
     @Override
@@ -192,7 +174,7 @@ public abstract class TimelineViewController extends TableViewController<BaseLin
             inputView.setCommentId(commentClickEvent.uniqueId);
             LineCommentItem commentItem = commentItemMap.get(commentClickEvent.uniqueId);
             if (commentItem != null)
-                inputView.setPlaceHolder("回复:" + commentItem.userNick);
+                inputView.setPlaceHolder("  回复:" + commentItem.userNick);
             currentItemId = commentClickEvent.itemId;
         } else if (event instanceof UserClickEvent) {
             UserClickEvent userClickEvent = (UserClickEvent) event;
@@ -279,6 +261,12 @@ public abstract class TimelineViewController extends TableViewController<BaseLin
 
     protected abstract void onUserClick(int userId);
 
+
+    @Override
+    protected void onClickHeaderUserAvatar() {
+        onUserClick(userId);
+    }
+
     private void genLikeSpanStr(BaseLineItem item) {
 
         List<LineLikeItem> likes = item.likes;
@@ -349,6 +337,30 @@ public abstract class TimelineViewController extends TableViewController<BaseLin
 
             item.commentSpanStrs.add(spannableString);
         }
+    }
+
+    private ViewTreeObserver.OnGlobalLayoutListener layoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
+        @Override
+        public void onGlobalLayout() {
+
+            int heightDiff = rootView.getHeight() - containerParent.getHeight();
+
+            if (heightDiff > 300) {
+                Log.d(Config.TAG, "键盘弹出状态");
+                isKeyboardShow = true;
+            } else {
+                Log.d(Config.TAG, "键盘收起状态");
+                if (isKeyboardShow)
+                    inputView.hide();
+
+                isKeyboardShow = false;
+
+            }
+        }
+    };
+
+    private static View getRootView(Activity context) {
+        return ((ViewGroup) context.findViewById(android.R.id.content)).getChildAt(0);
     }
 
 }

@@ -80,8 +80,9 @@ public class CommentInputView extends FrameLayout {
     }
 
 
-    private void hide() {
+    public void hide() {
         setVisibility(GONE);
+        setPlaceHolder("");
         InputMethodManager inputManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
     }

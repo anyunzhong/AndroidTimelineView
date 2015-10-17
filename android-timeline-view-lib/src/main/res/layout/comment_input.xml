@@ -23,6 +23,7 @@
             android:layout_height="45dp"
             android:textColorHint="#e6e6e6"
             android:textColor="@android:color/black"
+            android:textSize="15sp"
             android:background="@drawable/comment_edit_text_bg"/>
 
         <Button
