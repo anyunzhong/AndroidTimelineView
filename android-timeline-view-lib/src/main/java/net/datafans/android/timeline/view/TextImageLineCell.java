@@ -4,17 +4,10 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.Html;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
-import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.text.style.URLSpan;
-import android.text.style.UnderlineSpan;
 import android.text.util.Linkify;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +16,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import net.datafans.android.common.helper.DipHelper;
+import net.datafans.android.common.helper.LogHelper;
 import net.datafans.android.common.helper.ResHelper;
 import net.datafans.android.common.helper.face.FaceHelper;
 import net.datafans.android.timeline.R;
-import net.datafans.android.timeline.config.Config;
 import net.datafans.android.timeline.item.BaseLineItem;
 import net.datafans.android.timeline.item.TextImageLineItem;
 import net.datafans.android.timeline.view.imagegrid.ImageGridView;
@@ -110,7 +103,7 @@ public class TextImageLineCell extends BaseLineCell {
         @Override
         public void onClick(View v) {
 
-            Log.e(Config.TAG, "" + value);
+            LogHelper.debug("" + value);
         }
 
         @Override

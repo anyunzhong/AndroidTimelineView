@@ -2,9 +2,8 @@ package net.datafans.androidtimelineview;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
-import net.datafans.android.timeline.config.Config;
+import net.datafans.android.common.helper.LogHelper;
 import net.datafans.android.timeline.controller.TimelineViewController;
 import net.datafans.android.timeline.item.LineCommentItem;
 import net.datafans.android.timeline.item.LineItemType;
@@ -19,6 +18,8 @@ public class MainActivity extends TimelineViewController {
         addItems();
 
         super.onCreate(savedInstanceState);
+
+        LogHelper.init("## timeline ##", true);
 
         setHeader();
 
@@ -238,7 +239,7 @@ public class MainActivity extends TimelineViewController {
 
     @Override
     protected void onUserClick(int userId) {
-        Log.d(Config.TAG, "user-click: " + userId);
+        LogHelper.debug("user-click: " + userId);
 
         Intent intent = new Intent(this, UserFeedActivity.class);
         startActivity(intent);

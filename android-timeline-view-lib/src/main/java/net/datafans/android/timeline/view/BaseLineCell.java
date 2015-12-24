@@ -1,24 +1,18 @@
 package net.datafans.android.timeline.view;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import net.datafans.android.common.helper.DipHelper;
 import net.datafans.android.common.helper.TimeHelper;
 import net.datafans.android.common.widget.imageview.CommonImageView;
 import net.datafans.android.common.widget.table.TableViewCell;
 import net.datafans.android.timeline.R;
-import net.datafans.android.timeline.config.Config;
 import net.datafans.android.timeline.event.UserClickEvent;
 import net.datafans.android.timeline.item.BaseLineItem;
 import net.datafans.android.timeline.view.likeCmt.LikeCommentView;
-
-import java.util.Set;
 
 import de.greenrobot.event.EventBus;
 

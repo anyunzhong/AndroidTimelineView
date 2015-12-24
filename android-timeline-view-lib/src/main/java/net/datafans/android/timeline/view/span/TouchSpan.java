@@ -4,11 +4,10 @@ import android.content.Context;
 import android.graphics.Color;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.View;
 
+import net.datafans.android.common.helper.LogHelper;
 import net.datafans.android.timeline.R;
-import net.datafans.android.timeline.config.Config;
 import net.datafans.android.timeline.event.UserClickEvent;
 
 import de.greenrobot.event.EventBus;
@@ -54,7 +53,7 @@ public class TouchSpan extends ClickableSpan {
 
     @Override
     public void onClick(View widget) {
-        Log.e(Config.TAG, "" + userId);
+        LogHelper.debug("" + userId);
         EventBus.getDefault().post(new UserClickEvent(userId));
     }
 }

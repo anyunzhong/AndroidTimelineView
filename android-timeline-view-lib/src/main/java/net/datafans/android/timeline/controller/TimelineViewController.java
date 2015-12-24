@@ -3,29 +3,21 @@ package net.datafans.android.timeline.controller;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import net.datafans.android.common.helper.DipHelper;
-import net.datafans.android.common.widget.controller.TableViewController;
-import net.datafans.android.common.widget.imageview.CommonImageView;
+import net.datafans.android.common.helper.LogHelper;
 import net.datafans.android.common.widget.table.TableViewCell;
 import net.datafans.android.common.widget.table.refresh.RefreshControlType;
-import net.datafans.android.timeline.R;
 import net.datafans.android.timeline.adapter.BaseLineCellAdapter;
 import net.datafans.android.timeline.adapter.CellAdapterManager;
 import net.datafans.android.timeline.adapter.TextImageLineCellAdapter;
-import net.datafans.android.timeline.config.Config;
 import net.datafans.android.timeline.event.CommentClickEvent;
 import net.datafans.android.timeline.event.UserClickEvent;
 import net.datafans.android.timeline.item.BaseLineItem;
@@ -346,10 +338,10 @@ public abstract class TimelineViewController extends BaseTimelineViewController<
             int heightDiff = rootView.getHeight() - containerParent.getHeight();
 
             if (heightDiff > 300) {
-                Log.d(Config.TAG, "键盘弹出状态");
+                LogHelper.debug("键盘弹出状态");
                 isKeyboardShow = true;
             } else {
-                Log.d(Config.TAG, "键盘收起状态");
+                LogHelper.debug("键盘收起状态");
                 if (isKeyboardShow)
                     inputView.hide();
 

@@ -4,11 +4,10 @@ import android.text.Layout;
 import android.text.Selection;
 import android.text.Spannable;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.TextView;
 
-import net.datafans.android.timeline.config.Config;
+import net.datafans.android.common.helper.LogHelper;
 import net.datafans.android.timeline.event.CommentClickEvent;
 
 import de.greenrobot.event.EventBus;
@@ -45,7 +44,7 @@ public class LinkTouchMovementMethod extends LinkMovementMethod {
                 super.onTouchEvent(textView, spannable, event);
             }else{
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                    Log.e(Config.TAG, "点击了label其它地方: " + uniqueId);
+                    LogHelper.debug("点击了label其它地方: " + uniqueId);
                     CommentClickEvent commentClickEvent = new CommentClickEvent();
                     commentClickEvent.uniqueId = uniqueId;
                     commentClickEvent.itemId = itemId;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id=":android-timeline-view-lib" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$/.." external.system.id="GRADLE" external.system.module.group="net.datafans" external.system.module.version="1.0.4" type="JAVA_MODULE" version="4">
+<module external.linked.project.id=":android-timeline-view-lib" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$/.." external.system.id="GRADLE" external.system.module.group="net.datafans" external.system.module.version="1.0.9" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="android-gradle" name="Android-Gradle">
       <configuration>
@@ -91,21 +91,21 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 22 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="support-annotations-22.2.0" level="project" />
     <orderEntry type="library" exported="" name="eventbus-2.4.0" level="project" />
+    <orderEntry type="library" exported="" name="support-annotations-22.2.0" level="project" />
     <orderEntry type="library" exported="" name="ultra-ptr-1.0.9" level="project" />
     <orderEntry type="library" exported="" name="android-async-http-1.4.7" level="project" />
     <orderEntry type="library" exported="" name="bga-refresh-layout-lib-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="butterknife-6.1.0" level="project" />
     <orderEntry type="library" exported="" name="trinea-android-common-lib-1.0.0" level="project" />
-    <orderEntry type="library" exported="" name="viewPagerIndicator_Library-1.0.3" level="project" />
+    <orderEntry type="library" exported="" name="viewPagerIndicator_Library-1.0.4" level="project" />
     <orderEntry type="library" exported="" name="support-v4-22.2.0" level="project" />
-    <orderEntry type="library" exported="" name="android-common-lib-1.2.62" level="project" />
     <orderEntry type="library" exported="" name="fastjson-1.2.6" level="project" />
     <orderEntry type="library" exported="" name="cube-sdk-1.0.44" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-22.1.1" level="project" />
     <orderEntry type="library" exported="" name="library-2.4.0" level="project" />
     <orderEntry type="library" exported="" name="clog-1.0.2" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-22.2.0" level="project" />
+    <orderEntry type="library" exported="" name="android-common-lib-1.2.85" level="project" />
   </component>
 </module>

@@ -2,7 +2,6 @@ package net.datafans.android.timeline.controller;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -42,8 +41,6 @@ public abstract class BaseTimelineViewController<T> extends TableViewController<
 
         tableView.getAdapter().getListView().setSelector(new ColorDrawable(Color.TRANSPARENT));
         tableView.hideDivider();
-
-        initHeaderView();
     }
 
     @Override
@@ -51,12 +48,10 @@ public abstract class BaseTimelineViewController<T> extends TableViewController<
         return Color.rgb(30, 35, 46);
     }
 
-    private void initHeaderView() {
 
+    @Override
+    protected View getTableHeaderView() {
         View header = getLayoutInflater().inflate(R.layout.header, null);
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN)
-            tableView.getAdapter().getListView().addHeaderView(header);
-
         coverView = (CommonImageView) header.findViewById(R.id.cover);
 
 
@@ -78,8 +73,8 @@ public abstract class BaseTimelineViewController<T> extends TableViewController<
 
         userNickView = (TextView) header.findViewById(R.id.userNick);
         signView = (TextView) header.findViewById(R.id.sign);
+        return header;
     }
-
 
     protected abstract void onClickHeaderUserAvatar();
 
